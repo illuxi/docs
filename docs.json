@@ -60,7 +60,8 @@
             "group": "Product",
             "pages": [
               "api-reference/endpoint/product/definition",
-              "api-reference/endpoint/product/get"
+              "api-reference/endpoint/product/get",
+              "api-reference/endpoint/product/get_all"
             ]
           }
         ]

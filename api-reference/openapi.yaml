@@ -325,7 +325,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int
       responses:
         '200':
           description: product response
@@ -409,6 +409,88 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /product/get_all:
+    post:
+      description: Returns a paginated list of products, with optional filtering via criterias.
+      operationId: getAllProducts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start:
+                  type: integer
+                  description: Offset for pagination
+                  default: 0
+                limit:
+                  type: integer
+                  description: Maximum number of products to return
+                  default: 10
+                criterias:
+                  type: array
+                  description: List of filter criteria to apply
+                  items:
+                    type: object
+                    required:
+                      - column
+                      - operator
+                      - value
+                    properties:
+                      column:
+                        type: string
+                        description: Product field to filter on (e.g. product_type_id)
+                      operator:
+                        type: string
+                        description: Comparison operator
+                        enum: [equal, like, greater, lower]
+                      value:
+                        type: string
+                        description: Value to compare against
+            example:
+              start: 0
+              limit: 10
+              criterias:
+                - column: product_type_id
+                  operator: equal
+                  value: micro
+      responses:
+        '200':
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                    description: Total number of products matching the criterias
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+              example:
+                status: true
+                total: 42
+                result:
+                  - product_id: 4821
+                    product_key: advanced-leadership-2024
+                    product_type_id: micro
+                    product_status: published
+                    product_i18n_language_id: fr
+                    product_i18n_title: Leadership avancé
+                    product_price: 149.99
+                    product_for_sale: 1
+                    product_add_to_catalog: 1
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Product:
@@ -421,7 +503,7 @@ components:
       properties:
         product_id:
           type: integer
-          format: int64
+          format: int
           description: Unique identifier of the product
           readOnly: true
         product_key:
@@ -429,14 +511,15 @@ components:
           description: Unique key identifier for the product
         product_type_id:
           type: string
-          description: Type of the product (e.g. elearning, event, webinar)
+          description: Type of the product (micro, event)
         product_status:
           type: string
           description: Publication status of the product
-          enum: [draft, published, archived]
+          enum: [active, soon, new_release, revision, inactive, cancelled]
         product_i18n_language_id:
           type: string
-          description: Language code of the product content
+          description: Language
+          enum: [french, english]
           readOnly: true
         product_i18n_slug:
           type: string
@@ -488,7 +571,7 @@ components:
           readOnly: true
         product_certificate_report:
           type: integer
-          description: Whether a certificate report is enabled (1 = yes, 0 = no)
+          description: Whether a certificate is enabled (1 = yes, 0 = no)
         product_certificate_working_type:
           type: string
           nullable: true
