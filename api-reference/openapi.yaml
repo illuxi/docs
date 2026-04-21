@@ -9,13 +9,19 @@ info:
     email: info@illuxi.com
     url: https://illuxi.com
 servers:
-  - url: https://yourportal.illuxi.com/api/v2
+  - url: https://{portalApiUrl}
     description: Production server (uses live data)
-  - url: https://yourportal.preprod.illuxi.com/api/v2
-    description: Sandbox server (uses test data)
+    variables:
+      portalApiUrl:
+        default: your-portal.acme.com/api-v2
+        description: Your portal's API URL
+security:
+  - bearerAuth: []
+
 paths:
   /token:
     post:
+      security: []
       description: Generate an access token to authenticate API requests.
       operationId: generateToken
       requestBody:
@@ -26,9 +32,9 @@ paths:
             schema:
               type: object
               required:
-                - api_key
+                - apikey
               properties:
-                api_key:
+                apikey:
                   type: string
                   description: Your portal's API key
       responses:
@@ -52,13 +58,6 @@ paths:
     get:
       description: Validate token to ensure it is still active
       operationId: validateToken
-      parameters:
-        - name: Authorization
-          in: header
-          description: Authentication token
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Token is valid
@@ -79,7 +78,7 @@ paths:
                   user_data:
                     type: object
                     properties:
-                      api_key:
+                      apikey:
                         type: string
                         description: API key associated with the token
                       org_id:
@@ -491,6 +490,1559 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /availability_group/definition:
+    get:
+      description: Returns the definition of the availability_group object, including its properties and their types.
+      operationId: getAvailabilityGroupDefinition
+      responses:
+        '200':
+          description: definition response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Definition'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /availability_group/get/{id}:
+    get:
+      description: Returns an availability_group based on a single ID
+      operationId: getAvailabilityGroupById
+      parameters:
+        - name: id
+          in: path
+          description: ID of availability_group to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: availability_group response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/AvailabilityGroup'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /availability_group/get_all:
+    post:
+      description: Returns a paginated list of availability_groups with optional filtering.
+      operationId: getAllAvailabilityGroups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAllRequest'
+            example:
+              start: 0
+              limit: 10
+              criterias:
+                - column: availability_group_product_id
+                  operator: equal
+                  value: "23446"
+      responses:
+        '200':
+          description: list of availability_groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AvailabilityGroup'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /availability_group/edit/{id}:
+    post:
+      description: Edit an availability_group by ID
+      operationId: editAvailabilityGroup
+      parameters:
+        - name: id
+          in: path
+          description: ID of availability_group to edit
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AvailabilityGroup'
+            example:
+              availability_group_order: 101
+      responses:
+        '200':
+          description: updated availability_group
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/AvailabilityGroup'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /illuxi_availability/definition:
+    get:
+      description: Returns the definition of the illuxi_availability object, including its properties and their types.
+      operationId: getIlluxiAvailabilityDefinition
+      responses:
+        '200':
+          description: definition response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Definition'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /illuxi_availability/get/{id}:
+    get:
+      description: Returns an illuxi_availability based on a single ID
+      operationId: getIlluxiAvailabilityById
+      parameters:
+        - name: id
+          in: path
+          description: ID of illuxi_availability to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: illuxi_availability response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/IlluxiAvailability'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /illuxi_availability/get_all:
+    post:
+      description: Returns a paginated list of illuxi_availabilities with optional filtering.
+      operationId: getAllIlluxiAvailabilities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAllRequest'
+            example:
+              start: 0
+              limit: 10
+              criterias:
+                - column: illuxi_availability_target_type
+                  operator: equal
+                  value: availability_group
+                - column: illuxi_availability_target_id
+                  operator: equal
+                  value: "484"
+      responses:
+        '200':
+          description: list of illuxi_availabilities
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IlluxiAvailability'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /illuxi_availability/edit/{id}:
+    post:
+      description: Edit an illuxi_availability by ID
+      operationId: editIlluxiAvailability
+      parameters:
+        - name: id
+          in: path
+          description: ID of illuxi_availability to edit
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IlluxiAvailability'
+            example:
+              illuxi_availability_status: inactive
+      responses:
+        '200':
+          description: updated illuxi_availability
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/IlluxiAvailability'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /bundle/definition:
+    get:
+      description: Returns the definition of the bundle object, including its properties and their types.
+      operationId: getBundleDefinition
+      responses:
+        '200':
+          description: definition response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Definition'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /grp/definition:
+    get:
+      description: Returns the definition of the grp object, including its properties and their types.
+      operationId: getGrpDefinition
+      responses:
+        '200':
+          description: definition response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Definition'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /grp/create:
+    post:
+      description: Create a new group
+      operationId: createGrp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Grp'
+            example:
+              grp_name: my-new-group
+              grp_description: Description of my group
+              grp_parent_id: 3981
+              grp_external_id: "12345678"
+              grp_external_name: External name
+      responses:
+        '201':
+          description: group created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/Grp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /grp/delete/{id}:
+    post:
+      description: Delete a group by ID
+      operationId: deleteGrp
+      parameters:
+        - name: id
+          in: path
+          description: ID of group to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: group deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /grp/edit/{id}:
+    post:
+      description: Edit a group by ID
+      operationId: editGrp
+      parameters:
+        - name: id
+          in: path
+          description: ID of group to edit
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Grp'
+            example:
+              grp_description: Updated description
+      responses:
+        '200':
+          description: updated group
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/Grp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /grp/get/{id}:
+    get:
+      description: Returns a group based on a single ID
+      operationId: getGrpById
+      parameters:
+        - name: id
+          in: path
+          description: ID of group to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: group response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/Grp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /grp/get_by_external_id/{external_id}:
+    get:
+      description: Returns a group by its external ID
+      operationId: getGrpByExternalId
+      parameters:
+        - name: external_id
+          in: path
+          description: External ID of the group
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: group response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/Grp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /grp/get_with_children/{id}:
+    get:
+      description: Returns a group and all its child groups
+      operationId: getGrpWithChildren
+      parameters:
+        - name: id
+          in: path
+          description: ID of the parent group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: group with children response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    allOf:
+                      - $ref: '#/components/schemas/Grp'
+                      - type: object
+                        properties:
+                          children:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Grp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /grp/get_all:
+    post:
+      description: Returns a paginated list of groups with optional filtering.
+      operationId: getAllGrps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAllRequest'
+            example:
+              start: 0
+              limit: 5
+              criterias: []
+      responses:
+        '200':
+          description: list of groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Grp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /grp/manage_users:
+    post:
+      description: Add, move, or remove users from groups
+      operationId: manageUsersInGrps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - user_id
+                    properties:
+                      user_id:
+                        type: integer
+                        description: ID of the user
+                      add_to:
+                        type: array
+                        description: List of group IDs to add the user to
+                        items:
+                          type: integer
+                      remove_from:
+                        type: array
+                        description: List of group IDs to remove the user from
+                        items:
+                          type: integer
+                      move:
+                        type: object
+                        description: Map of source group ID to destination group ID
+                        additionalProperties:
+                          type: integer
+                use_organisation_identifier:
+                  type: boolean
+                  description: Use organisation identifier instead of user_id
+            example:
+              users:
+                - user_id: 737635
+                  remove_from:
+                    - 6435
+      responses:
+        '200':
+          description: users managed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /product_access/definition:
+    get:
+      description: Returns the definition of the product_access object, including its properties and their types.
+      operationId: getProductAccessDefinition
+      responses:
+        '200':
+          description: definition response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Definition'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /product_access/create:
+    post:
+      description: Grant a user access to a product
+      operationId: createProductAccess
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - product_id
+              properties:
+                email:
+                  type: string
+                  description: Email of the user to grant access to
+                external_id:
+                  type: integer
+                  nullable: true
+                  description: External identifier for the access record
+                product_id:
+                  type: integer
+                  description: ID of the product to grant access to
+                invoice_id:
+                  type: integer
+                  nullable: true
+                  description: Associated invoice ID
+                registration_id:
+                  type: integer
+                  nullable: true
+                  description: Associated registration ID
+                source:
+                  type: string
+                  nullable: true
+                  description: Source system that triggered the access creation
+            example:
+              email: user@example.com
+              product_id: 5693
+              registration_id: 169116
+              source: api
+      responses:
+        '201':
+          description: product_access created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/ProductAccess'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /product_access/get/{id}:
+    get:
+      description: Returns a product_access record by ID
+      operationId: getProductAccessById
+      parameters:
+        - name: id
+          in: path
+          description: ID of product_access to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: product_access response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/ProductAccess'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /product_access/get_all_for_product:
+    post:
+      description: Returns a paginated list of product_access records linked to products.
+      operationId: getAllProductAccessForProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAllRequest'
+            example:
+              start: 0
+              limit: 10
+              criterias:
+                - column: product_access_status
+                  operator: equal
+                  value: active
+      responses:
+        '200':
+          description: list of product_access records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductAccess'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /product_access/get_all_for_bundle:
+    post:
+      description: Returns a paginated list of product_access records linked to bundles.
+      operationId: getAllProductAccessForBundle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAllRequest'
+            example:
+              start: 0
+              limit: 20
+              criterias: []
+      responses:
+        '200':
+          description: list of product_access records for bundles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductAccess'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /product_access/edit/{id}:
+    post:
+      description: Edit a product_access record by ID
+      operationId: editProductAccess
+      parameters:
+        - name: id
+          in: path
+          description: ID of product_access to edit
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductAccess'
+            example:
+              product_access_certificate: "1"
+      responses:
+        '200':
+          description: updated product_access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/ProductAccess'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /product_access/delete/{id}:
+    post:
+      description: Delete a product_access record by ID
+      operationId: deleteProductAccess
+      parameters:
+        - name: id
+          in: path
+          description: ID of product_access to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: product_access deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /take/definition:
+    get:
+      description: Returns the definition of the take object, including its properties and their types.
+      operationId: getTakeDefinition
+      responses:
+        '200':
+          description: definition response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Definition'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /take/get/{id}:
+    get:
+      description: Returns a take record by ID
+      operationId: getTakeById
+      parameters:
+        - name: id
+          in: path
+          description: ID of take to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: take response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/Take'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /take/get_all:
+    post:
+      description: Returns a paginated list of take records with optional filtering.
+      operationId: getAllTakes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAllRequest'
+            example:
+              start: 0
+              limit: 20
+              criterias: []
+      responses:
+        '200':
+          description: list of takes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Take'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /take/get_all_for_user/{user_id}:
+    post:
+      description: Returns a paginated list of take records for a specific user.
+      operationId: getAllTakesForUser
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAllRequest'
+            example:
+              start: 0
+              limit: 20
+              criterias: []
+      responses:
+        '200':
+          description: list of takes for the user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Take'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /take/generate_certificate/{id}:
+    get:
+      description: Generate a certificate for a completed take
+      operationId: generateCertificate
+      parameters:
+        - name: id
+          in: path
+          description: ID of the take to generate a certificate for
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: certificate generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    type: object
+                    properties:
+                      certificate_url:
+                        type: string
+                        description: URL to download the generated certificate
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/definition:
+    get:
+      description: Returns the definition of the user object, including its properties and their types.
+      operationId: getUserDefinition
+      responses:
+        '200':
+          description: definition response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Definition'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/get_all:
+    post:
+      description: Returns a paginated list of users with optional filtering.
+      operationId: getAllUsers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/GetAllRequest'
+                - type: object
+                  properties:
+                    index_by_user_id:
+                      type: boolean
+                      description: If true, result is keyed by user_id instead of a plain array
+                    order_by:
+                      type: string
+                      description: Sort expression (e.g. "user_id asc")
+            example:
+              index_by_user_id: true
+              start: 0
+              limit: 10
+              order_by: user_id asc
+              criterias: []
+      responses:
+        '200':
+          description: list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/get/{id}:
+    get:
+      description: Returns a user by ID
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: user response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/get_by_organisation_identifier/{identifier}:
+    get:
+      description: Returns a user by their organisation identifier
+      operationId: getUserByOrganisationIdentifier
+      parameters:
+        - name: identifier
+          in: path
+          description: Organisation identifier of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: user response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/create:
+    post:
+      description: Create a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - firstname
+                - lastname
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email address of the user
+                firstname:
+                  type: string
+                  description: First name
+                lastname:
+                  type: string
+                  description: Last name
+                groups:
+                  type: array
+                  description: List of group keys to add the user to
+                  items:
+                    type: string
+                activation_email:
+                  type: string
+                  description: Activation email type to send (e.g. "standard")
+                  nullable: true
+                user_organisation_identifier:
+                  type: string
+                  nullable: true
+                  description: Organisation-specific identifier for the user
+                properties:
+                  type: object
+                  description: Custom property key-value pairs
+                  additionalProperties: true
+            example:
+              email: john.smith@example.com
+              firstname: John
+              lastname: Smith
+              groups:
+                - my-group
+              user_organisation_identifier: "123456"
+      responses:
+        '201':
+          description: user created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/edit/{id}:
+    post:
+      description: Edit a user by ID
+      operationId: editUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to edit
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+                password_reset_code:
+                  type: string
+                  nullable: true
+                groups:
+                  type: array
+                  items:
+                    type: string
+                user_organisation_identifier:
+                  type: string
+                  nullable: true
+                properties:
+                  type: object
+                  additionalProperties: true
+            example:
+              user_organisation_identifier: "111"
+      responses:
+        '200':
+          description: updated user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/activate/{id}:
+    post:
+      description: Activate a user account
+      operationId: activateUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to activate
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: user activated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/deactivate/{id}:
+    post:
+      description: Deactivate a user account
+      operationId: deactivateUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to deactivate
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: user deactivated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/grp/{id}:
+    post:
+      description: Returns a paginated list of groups for a specific user.
+      operationId: getGrpsForUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start:
+                  type: integer
+                  default: 0
+                limit:
+                  type: integer
+                  default: 20
+            example:
+              start: 0
+              limit: 20
+      responses:
+        '200':
+          description: list of groups for the user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Grp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/get_recent/{limit}:
+    get:
+      description: Returns the most recently created users
+      operationId: getRecentUsers
+      parameters:
+        - name: limit
+          in: path
+          description: Maximum number of users to return
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: list of recent users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/get_recently_updated:
+    get:
+      description: Returns users who were recently updated
+      operationId: getRecentlyUpdatedUsers
+      responses:
+        '200':
+          description: list of recently updated users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user_grp/definition:
+    get:
+      description: Returns the definition of the user_grp object, including its properties and their types.
+      operationId: getUserGrpDefinition
+      responses:
+        '200':
+          description: definition response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Definition'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user_grp/create:
+    post:
+      description: Add a user to a group
+      operationId: createUserGrp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserGrp'
+            example:
+              user_grp_grp_id: 2262
+              user_grp_user_id: 737635
+              user_grp_group_admin: 0
+      responses:
+        '201':
+          description: user_grp created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/UserGrp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user_grp/delete/{id}:
+    post:
+      description: Remove a user from a group by user_grp ID
+      operationId: deleteUserGrp
+      parameters:
+        - name: id
+          in: path
+          description: ID of user_grp to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: user_grp deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user_grp/edit/{id}:
+    post:
+      description: Edit a user_grp record by ID
+      operationId: editUserGrp
+      parameters:
+        - name: id
+          in: path
+          description: ID of user_grp to edit
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserGrp'
+            example:
+              user_grp_group_admin: 1
+      responses:
+        '200':
+          description: updated user_grp
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/UserGrp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user_grp/get/{id}:
+    get:
+      description: Returns a user_grp record by ID
+      operationId: getUserGrpById
+      parameters:
+        - name: id
+          in: path
+          description: ID of user_grp to get
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: user_grp response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/UserGrp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user_grp/get_all:
+    post:
+      description: Returns a paginated list of user_grp records with optional filtering.
+      operationId: getAllUserGrps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAllRequest'
+            example:
+              start: 0
+              limit: 12
+              criterias: []
+      responses:
+        '200':
+          description: list of user_grp records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  total:
+                    type: integer
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserGrp'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Product:
@@ -751,6 +2303,304 @@ components:
           description: ID of the content provider
           readOnly: true
 
+    GetAllRequest:
+      type: object
+      properties:
+        start:
+          type: integer
+          description: Offset for pagination
+          default: 0
+        limit:
+          type: integer
+          description: Maximum number of records to return
+          default: 10
+        criterias:
+          type: array
+          description: List of filter criteria
+          items:
+            type: object
+            required:
+              - column
+              - operator
+              - value
+            properties:
+              column:
+                type: string
+                description: Field name to filter on
+              operator:
+                type: string
+                description: Comparison operator
+                enum: [equal, not_equal, like, in, not_in, greater_than, less_than, greater, lesser]
+              value:
+                description: Value to compare against
+    AvailabilityGroup:
+      type: object
+      properties:
+        availability_group_id:
+          type: integer
+          description: Unique identifier of the availability group
+          readOnly: true
+        availability_group_product_id:
+          type: integer
+          description: ID of the product associated with this availability group
+        availability_group_order:
+          type: integer
+          nullable: true
+          description: Display order of the availability group
+        availability_group_status:
+          type: string
+          nullable: true
+          description: Status of the availability group
+        availability_group_created_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the availability group was created
+        availability_group_updated_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the availability group was last updated
+    IlluxiAvailability:
+      type: object
+      properties:
+        illuxi_availability_id:
+          type: integer
+          description: Unique identifier of the illuxi availability
+          readOnly: true
+        illuxi_availability_target_type:
+          type: string
+          description: Type of entity this availability applies to (e.g. availability_group)
+        illuxi_availability_target_id:
+          type: integer
+          description: ID of the target entity
+        illuxi_availability_status:
+          type: string
+          description: Status of the availability record
+          enum: [active, inactive]
+        illuxi_availability_created_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the record was created
+        illuxi_availability_updated_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the record was last updated
+    Bundle:
+      type: object
+      properties:
+        bundle_id:
+          type: integer
+          description: Unique identifier of the bundle
+          readOnly: true
+        bundle_key:
+          type: string
+          description: Unique key for the bundle
+        bundle_status:
+          type: string
+          description: Publication status of the bundle
+        bundle_i18n_title:
+          type: string
+          description: Title of the bundle
+        bundle_created_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the bundle was created
+        bundle_updated_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the bundle was last updated
+    Grp:
+      type: object
+      properties:
+        grp_id:
+          type: integer
+          description: Unique identifier of the group
+          readOnly: true
+        grp_name:
+          type: string
+          description: Internal key name of the group
+        grp_description:
+          type: string
+          nullable: true
+          description: Human-readable description of the group
+        grp_parent_id:
+          type: integer
+          nullable: true
+          description: ID of the parent group (for nested groups)
+        grp_external_id:
+          type: string
+          nullable: true
+          description: External identifier for integration with third-party systems
+        grp_external_name:
+          type: string
+          nullable: true
+          description: Alternate name from the external system
+        grp_created_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the group was created
+        grp_updated_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the group was last updated
+    ProductAccess:
+      type: object
+      properties:
+        product_access_id:
+          type: integer
+          description: Unique identifier of the product access record
+          readOnly: true
+        product_access_product_id:
+          type: integer
+          description: ID of the product this access grants
+        product_access_user_id:
+          type: integer
+          description: ID of the user who has access
+          readOnly: true
+        product_access_status:
+          type: string
+          description: Status of the access record
+          enum: [active, inactive, expired]
+        product_access_certificate:
+          type: string
+          nullable: true
+          description: Whether a certificate was issued (1 = yes)
+        product_access_created_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the access was created
+        product_access_updated_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the access was last updated
+        product_access_expired_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date the access expires
+    Take:
+      type: object
+      properties:
+        take_id:
+          type: integer
+          description: Unique identifier of the take record
+          readOnly: true
+        take_product_id:
+          type: integer
+          description: ID of the product being taken
+        take_user_id:
+          type: integer
+          description: ID of the user taking the product
+        take_status:
+          type: string
+          description: Completion status of the take
+          enum: [in_progress, completed, failed, abandoned]
+        take_score:
+          type: number
+          format: float
+          nullable: true
+          description: Score achieved (percentage)
+        take_started_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date and time the take was started
+        take_completed_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date and time the take was completed
+        take_created_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the take record was created
+        take_updated_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the take record was last updated
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: Unique identifier of the user
+          readOnly: true
+        email:
+          type: string
+          format: email
+          description: Email address of the user
+        firstname:
+          type: string
+          description: First name of the user
+        lastname:
+          type: string
+          description: Last name of the user
+        user_status:
+          type: string
+          description: Account status
+          enum: [active, inactive]
+          readOnly: true
+        user_organisation_identifier:
+          type: string
+          nullable: true
+          description: Organisation-specific identifier for the user
+        groups:
+          type: array
+          description: List of group keys the user belongs to
+          items:
+            type: string
+          readOnly: true
+        properties:
+          type: object
+          description: Custom property key-value pairs
+          additionalProperties: true
+        user_created_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the user was created
+        user_updated_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the user was last updated
+    UserGrp:
+      type: object
+      properties:
+        user_grp_id:
+          type: integer
+          description: Unique identifier of the user-group membership record
+          readOnly: true
+        user_grp_grp_id:
+          type: integer
+          description: ID of the group
+        user_grp_user_id:
+          type: integer
+          description: ID of the user
+        user_grp_group_admin:
+          type: integer
+          description: Whether the user is a group admin (1 = yes, 0 = no)
+        user_grp_created_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the membership was created
+        user_grp_updated_date:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Date the membership was last updated
     Definition:
       type: object
       required:
@@ -772,3 +2622,9 @@ components:
           format: int32
         message:
           type: string
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authentication token obtained from POST /token

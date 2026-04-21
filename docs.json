@@ -8,6 +8,15 @@
     "dark": "#004E4A"
   },
   "favicon": "/favicon.png",
+  "api": {
+    "playground": {
+      "mode": "simple"
+    },
+    "auth": {
+      "method": "key",
+      "name": "Authorization"
+    }
+  },
   "navigation": {
     "tabs": [
       {
@@ -62,6 +71,93 @@
               "api-reference/endpoint/product/definition",
               "api-reference/endpoint/product/get",
               "api-reference/endpoint/product/get_all"
+            ]
+          },
+          {
+            "group": "Availability Group",
+            "pages": [
+              "api-reference/endpoint/availability_group/definition",
+              "api-reference/endpoint/availability_group/get",
+              "api-reference/endpoint/availability_group/get_all",
+              "api-reference/endpoint/availability_group/edit"
+            ]
+          },
+          {
+            "group": "Illuxi Availability",
+            "pages": [
+              "api-reference/endpoint/illuxi_availability/definition",
+              "api-reference/endpoint/illuxi_availability/get",
+              "api-reference/endpoint/illuxi_availability/get_all",
+              "api-reference/endpoint/illuxi_availability/edit"
+            ]
+          },
+          {
+            "group": "Bundle",
+            "pages": [
+              "api-reference/endpoint/bundle/definition"
+            ]
+          },
+          {
+            "group": "Group",
+            "pages": [
+              "api-reference/endpoint/grp/definition",
+              "api-reference/endpoint/grp/create",
+              "api-reference/endpoint/grp/get",
+              "api-reference/endpoint/grp/get_by_external_id",
+              "api-reference/endpoint/grp/get_with_children",
+              "api-reference/endpoint/grp/get_all",
+              "api-reference/endpoint/grp/edit",
+              "api-reference/endpoint/grp/delete",
+              "api-reference/endpoint/grp/manage_users"
+            ]
+          },
+          {
+            "group": "Product Access",
+            "pages": [
+              "api-reference/endpoint/product_access/definition",
+              "api-reference/endpoint/product_access/create",
+              "api-reference/endpoint/product_access/get",
+              "api-reference/endpoint/product_access/get_all_for_product",
+              "api-reference/endpoint/product_access/get_all_for_bundle",
+              "api-reference/endpoint/product_access/edit",
+              "api-reference/endpoint/product_access/delete"
+            ]
+          },
+          {
+            "group": "Take",
+            "pages": [
+              "api-reference/endpoint/take/definition",
+              "api-reference/endpoint/take/get",
+              "api-reference/endpoint/take/get_all",
+              "api-reference/endpoint/take/get_all_for_user",
+              "api-reference/endpoint/take/generate_certificate"
+            ]
+          },
+          {
+            "group": "User",
+            "pages": [
+              "api-reference/endpoint/user/definition",
+              "api-reference/endpoint/user/create",
+              "api-reference/endpoint/user/get",
+              "api-reference/endpoint/user/get_by_organisation_identifier",
+              "api-reference/endpoint/user/get_all",
+              "api-reference/endpoint/user/get_recent",
+              "api-reference/endpoint/user/get_recently_updated",
+              "api-reference/endpoint/user/edit",
+              "api-reference/endpoint/user/activate",
+              "api-reference/endpoint/user/deactivate",
+              "api-reference/endpoint/user/grp"
+            ]
+          },
+          {
+            "group": "User Group",
+            "pages": [
+              "api-reference/endpoint/user_grp/definition",
+              "api-reference/endpoint/user_grp/create",
+              "api-reference/endpoint/user_grp/get",
+              "api-reference/endpoint/user_grp/get_all",
+              "api-reference/endpoint/user_grp/edit",
+              "api-reference/endpoint/user_grp/delete"
             ]
           }
         ]
