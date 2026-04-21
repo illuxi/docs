@@ -17,21 +17,24 @@
             "group": "Getting started",
             "pages": [
               "index",
-              "concepts"
+              "quickstart",
+              "development"
             ]
           },
           {
-            "group": "Concepts",
+            "group": "Guides",
             "pages": [
-              "concepts/product",
-              "concepts/capsule",
-              "concepts/bundle",
-              "concepts/product_access",
-              "concepts/take",
-              "concepts/availability_group",
-              "concepts/illuxi_availability",
-              "concepts/grp",
-              "concepts/user_grp"
+              "essentials/settings",
+              "essentials/navigation"
+            ]
+          },
+          {
+            "group": "References",
+            "pages": [
+              "essentials/markdown",
+              "essentials/code",
+              "essentials/images",
+              "essentials/reusable-snippets"
             ]
           }
         ]
@@ -42,25 +45,16 @@
           {
             "group": "API documentation",
             "pages": [
-              "api-reference/introduction",
-              "api-reference/status-codes",
-              "api-reference/criterias",
-              "api-reference/columns",
-              "api-reference/limits"
+              "api-reference/introduction"
             ]
           },
           {
-            "group": "Token",
+            "group": "Endpoint examples",
             "pages": [
-              "api-reference/endpoint/token/index",
-              "api-reference/endpoint/token/validate"
-            ]
-          },
-          {
-            "group": "Product",
-            "pages": [
-              "api-reference/endpoint/product/definition",
-              "api-reference/endpoint/product/get"
+              "api-reference/endpoint/get",
+              "api-reference/endpoint/create",
+              "api-reference/endpoint/delete",
+              "api-reference/endpoint/webhook"
             ]
           }
         ]
@@ -68,7 +62,16 @@
     ],
     "global": {
       "anchors": [
-
+        {
+          "anchor": "Documentation",
+          "href": "https://mintlify.com/docs",
+          "icon": "book-open-cover"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://mintlify.com/blog",
+          "icon": "newspaper"
+        }
       ]
     }
   },
@@ -101,6 +104,5 @@
       "facebook": "https://www.facebook.com/intelligenceilluxi",
       "linkedin": "https://ca.linkedin.com/company/illuxi"
     }
-  },
-  "openapi": "api-reference/openapi.yaml"
+  }
 }

@@ -1,0 +1,691 @@
+openapi: "3.0.0"
+info:
+  version: 2.0.0
+  title: illuxiLMS API
+  description: Interact with the illuxiLMS API to manage your learning content and users.
+  termsOfService: https://illuxi.com/conditions-utilisation/
+  contact:
+    name: illuxi Team
+    email: info@illuxi.com
+    url: https://illuxi.com
+servers:
+  - url: https://yourportal.illuxi.com/api/v2
+    description: Production server (uses live data)
+  - url: https://yourportal.preprod.illuxi.com/api/v2
+    description: Sandbox server (uses test data)
+paths:
+  /token:
+    post:
+      description: Generate an access token to authenticate API requests.
+      operationId: generateToken
+      requestBody:
+        description: API Key for authentication
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - api_key
+              properties:
+                api_key:
+                  type: string
+                  description: Your portal's API key
+      responses:
+        '200':
+          description: Token generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: The generated token
+        default:
+          description: Error generating access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /token/validate:
+    get:
+      description: Validate token to ensure it is still active
+      operationId: validateToken
+      parameters:
+        - name: Authorization
+          in: header
+          description: Authentication token
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Token is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    description: Indicates if the token is valid
+                  result:
+                    type: object
+                    description: Additional information about the token validation
+                    properties:
+                      message:
+                        type: string
+                  user_data:
+                    type: object
+                    properties:
+                      api_key:
+                        type: string
+                        description: API key associated with the token
+                      org_id:
+                        type: integer
+                        description: Organization ID associated with the token
+        default:
+          description: Error validating access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /product/definition:
+    get:
+      description: |
+        Returns the definition of the product object, including its properties and their types. This endpoint is useful for understanding the structure of the product data and how to interact with it.
+      operationId: getProductDefinition
+      responses:
+        '200':
+          description: definition response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        editable:
+                          type: boolean
+                        only_app_illuxi:
+                          type: boolean
+              example:
+                status: true
+                result:
+                  product_id:
+                    type: integer
+                    editable: false
+                  product_key:
+                    type: string
+                    editable: true
+                  product_type_id:
+                    type: string
+                    editable: true
+                  product_status:
+                    type: string
+                    editable: true
+                  product_i18n_language_id:
+                    type: string
+                    editable: false
+                  product_i18n_slug:
+                    type: string
+                    editable: true
+                  product_i18n_title:
+                    type: string
+                    editable: true
+                  product_i18n_summary:
+                    type: string
+                    editable: true
+                  product_i18n_description:
+                    type: string
+                    editable: true
+                  product_price:
+                    type: float
+                    editable: true
+                  product_for_sale:
+                    type: integer
+                    editable: true
+                  product_add_to_catalog:
+                    type: integer
+                    editable: true
+                  product_min_score:
+                    type: integer
+                    editable: true
+                  product_duration:
+                    type: integer
+                    editable: true
+                  product_event_date:
+                    type: datetime
+                    editable: true
+                  product_event_end_date:
+                    type: datetime
+                    editable: true
+                  product_event_type:
+                    type: string
+                    editable: false
+                  product_certificate_report:
+                    type: integer
+                    editable: true
+                  product_certificate_working_type:
+                    type: string
+                    editable: true
+                  product_allow_notation:
+                    type: integer
+                    editable: true
+                  product_certificate_unit:
+                    type: integer
+                    editable: true
+                  product_certificate_hour:
+                    type: integer
+                    editable: true
+                  product_waiting_list:
+                    type: integer
+                    editable: true
+                  product_show_list_of_participants:
+                    type: integer
+                    editable: true
+                  product_min_participant:
+                    type: integer
+                    editable: true
+                  product_external_id:
+                    type: string
+                    editable: true
+                  product_external_code:
+                    type: string
+                    editable: false
+                  product_i18n_name:
+                    type: string
+                    editable: true
+                  product_i18n_learn:
+                    type: string
+                    editable: true
+                  product_i18n_certificate_mention:
+                    type: string
+                    editable: true
+                  product_i18n_region:
+                    type: string
+                    editable: true
+                  product_i18n_admissibility:
+                    type: string
+                    editable: true
+                  product_i18n_audience:
+                    type: string
+                    editable: true
+                  product_i18n_how_to_access:
+                    type: string
+                    editable: true
+                  product_i18n_extra_info:
+                    type: string
+                    editable: true
+                  product_i18n_programmation:
+                    type: string
+                    editable: true
+                  product_i18n_image_spotlight:
+                    type: string
+                    editable: true
+                  product_i18n_first_reminder_text:
+                    type: string
+                    editable: true
+                  product_i18n_second_reminder_text:
+                    type: string
+                    editable: true
+                  product_i18n_post_reminder_text:
+                    type: string
+                    editable: true
+                  product_i18n_speaker_bio:
+                    type: string
+                    editable: true
+                  product_i18n_registration_text:
+                    type: string
+                    editable: true
+                  product_i18n_creator_name:
+                    type: string
+                    editable: true
+                  product_i18n_creator_url:
+                    type: string
+                    editable: true
+                  product_i18n_promo_video_url:
+                    type: string
+                    editable: true
+                  product_i18n_promo_video_url_vimeo_video_id:
+                    type: string
+                    editable: true
+                  product_i18n_promo_video_url_vimeo_video_status:
+                    type: string
+                    editable: true
+                  product_i18n_external_link:
+                    type: string
+                    editable: true
+                  product_i18n_do_external_link:
+                    type: string
+                    editable: true
+                  product_i18n_video_transcription:
+                    type: string
+                    editable: true
+                  product_i18n_content:
+                    type: string
+                    editable: true
+                  product_i18n_image:
+                    type: string
+                    editable: true
+                  product_i18n_price_label:
+                    type: string
+                    editable: true
+                  product_created_date:
+                    type: datetime
+                    editable: false
+                  product_updated_date:
+                    type: datetime
+                    editable: false
+                  product_created_by_user_id:
+                    type: integer
+                    editable: false
+                  product_updated_by_user_id:
+                    type: integer
+                    editable: false
+                  product_image_full_url:
+                    type: string
+                    editable: false
+                  product_product_access_expired_day:
+                    type: integer
+                    editable: true
+                  product_event_access_need_approval:
+                    type: integer
+                    editable: true
+                  product_do_before_type:
+                    type: string
+                    editable: false
+                  product_provider_id:
+                    type: integer
+                    editable: false
+                  properties:
+                    - amplio-exclusive-for-subs
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /product/get/{id}:
+    get:
+      description: Returns a product based on a single ID
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          description: ID of product to get
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: product response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  result:
+                    $ref: '#/components/schemas/Product'
+              example:
+                status: true
+                result:
+                  product_id: 4821
+                  product_key: "advanced-leadership-2024"
+                  product_type_id: "elearning"
+                  product_status: "published"
+                  product_i18n_language_id: "fr"
+                  product_i18n_slug: "advanced-leadership-2024"
+                  product_i18n_title: "Leadership avancé"
+                  product_i18n_summary: "Développez vos compétences en leadership stratégique."
+                  product_i18n_description: "<p>Ce cours explore les fondements du leadership moderne dans un contexte organisationnel complexe.</p>"
+                  product_price: 149.99
+                  product_for_sale: 1
+                  product_add_to_catalog: 1
+                  product_min_score: 70
+                  product_duration: 480
+                  product_event_date: null
+                  product_event_end_date: null
+                  product_event_type: null
+                  product_certificate_report: 1
+                  product_certificate_working_type: "hours"
+                  product_allow_notation: 1
+                  product_certificate_unit: 8
+                  product_certificate_hour: 8
+                  product_waiting_list: 0
+                  product_show_list_of_participants: 0
+                  product_min_participant: 0
+                  product_external_id: "EXT-LDR-482"
+                  product_external_code: "LDR2024-ADV"
+                  product_i18n_name: "Leadership avancé"
+                  product_i18n_learn: "<ul><li>Gestion d'équipes multiculturelles</li><li>Prise de décision stratégique</li></ul>"
+                  product_i18n_certificate_mention: "Leadership et gestion"
+                  product_i18n_region: "Québec"
+                  product_i18n_admissibility: "Gestionnaires intermédiaires et seniors"
+                  product_i18n_audience: "Cadres, directeurs et managers"
+                  product_i18n_how_to_access: "Disponible sur la plateforme illuxi après inscription."
+                  product_i18n_extra_info: null
+                  product_i18n_programmation: null
+                  product_i18n_image_spotlight: null
+                  product_i18n_first_reminder_text: null
+                  product_i18n_second_reminder_text: null
+                  product_i18n_post_reminder_text: null
+                  product_i18n_speaker_bio: "Sophie Tremblay, coach exécutive certifiée avec 15 ans d'expérience."
+                  product_i18n_registration_text: null
+                  product_i18n_creator_name: "Sophie Tremblay"
+                  product_i18n_creator_url: "https://illuxi.com/formateurs/sophie-tremblay"
+                  product_i18n_promo_video_url: "https://vimeo.com/842931045"
+                  product_i18n_promo_video_url_vimeo_video_id: "842931045"
+                  product_i18n_promo_video_url_vimeo_video_status: "available"
+                  product_i18n_external_link: null
+                  product_i18n_do_external_link: null
+                  product_i18n_video_transcription: null
+                  product_i18n_content: null
+                  product_i18n_image: "products/4821/cover.jpg"
+                  product_i18n_price_label: "149,99 $"
+                  product_created_date: "2024-03-15T09:22:11Z"
+                  product_updated_date: "2024-11-08T14:05:37Z"
+                  product_created_by_user_id: 102
+                  product_updated_by_user_id: 87
+                  product_image_full_url: "https://yourportal.illuxi.com/storage/products/4821/cover.jpg"
+                  product_product_access_expired_day: 365
+                  product_event_access_need_approval: 0
+                  product_do_before_type: null
+                  product_provider_id: 3
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - product_id
+        - product_key
+        - product_status
+        - product_i18n_title
+      properties:
+        product_id:
+          type: integer
+          format: int64
+          description: Unique identifier of the product
+          readOnly: true
+        product_key:
+          type: string
+          description: Unique key identifier for the product
+        product_type_id:
+          type: string
+          description: Type of the product (e.g. elearning, event, webinar)
+        product_status:
+          type: string
+          description: Publication status of the product
+          enum: [draft, published, archived]
+        product_i18n_language_id:
+          type: string
+          description: Language code of the product content
+          readOnly: true
+        product_i18n_slug:
+          type: string
+          description: URL-friendly slug for the product
+        product_i18n_title:
+          type: string
+          description: Title of the product
+        product_i18n_summary:
+          type: string
+          nullable: true
+          description: Short summary of the product
+        product_i18n_description:
+          type: string
+          nullable: true
+          description: Full HTML description of the product
+        product_price:
+          type: number
+          format: float
+          nullable: true
+          description: Price of the product
+        product_for_sale:
+          type: integer
+          description: Whether the product is available for purchase (1 = yes, 0 = no)
+        product_add_to_catalog:
+          type: integer
+          description: Whether the product appears in the catalog (1 = yes, 0 = no)
+        product_min_score:
+          type: integer
+          nullable: true
+          description: Minimum score required to pass (percentage)
+        product_duration:
+          type: integer
+          nullable: true
+          description: Duration of the product in minutes
+        product_event_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: Start date of the event (for event-type products)
+        product_event_end_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: End date of the event (for event-type products)
+        product_event_type:
+          type: string
+          nullable: true
+          description: Type of event
+          readOnly: true
+        product_certificate_report:
+          type: integer
+          description: Whether a certificate report is enabled (1 = yes, 0 = no)
+        product_certificate_working_type:
+          type: string
+          nullable: true
+          description: Unit type used for certificate hours (e.g. hours)
+        product_allow_notation:
+          type: integer
+          description: Whether user rating is allowed (1 = yes, 0 = no)
+        product_certificate_unit:
+          type: integer
+          nullable: true
+          description: Number of units granted by the certificate
+        product_certificate_hour:
+          type: integer
+          nullable: true
+          description: Number of hours granted by the certificate
+        product_waiting_list:
+          type: integer
+          description: Whether a waiting list is enabled (1 = yes, 0 = no)
+        product_show_list_of_participants:
+          type: integer
+          description: Whether the participant list is visible (1 = yes, 0 = no)
+        product_min_participant:
+          type: integer
+          nullable: true
+          description: Minimum number of participants required
+        product_external_id:
+          type: string
+          nullable: true
+          description: External identifier for integration with third-party systems
+        product_external_code:
+          type: string
+          nullable: true
+          description: External code for the product
+          readOnly: true
+        product_i18n_name:
+          type: string
+          nullable: true
+          description: Alternate localized name
+        product_i18n_learn:
+          type: string
+          nullable: true
+          description: HTML content describing what the learner will learn
+        product_i18n_certificate_mention:
+          type: string
+          nullable: true
+          description: Text shown on the certificate
+        product_i18n_region:
+          type: string
+          nullable: true
+          description: Geographic region targeted by the product
+        product_i18n_admissibility:
+          type: string
+          nullable: true
+          description: Admissibility criteria for the product
+        product_i18n_audience:
+          type: string
+          nullable: true
+          description: Target audience description
+        product_i18n_how_to_access:
+          type: string
+          nullable: true
+          description: Instructions on how to access the product
+        product_i18n_extra_info:
+          type: string
+          nullable: true
+          description: Additional information about the product
+        product_i18n_programmation:
+          type: string
+          nullable: true
+          description: Schedule or agenda description
+        product_i18n_image_spotlight:
+          type: string
+          nullable: true
+          description: Spotlight image path
+        product_i18n_first_reminder_text:
+          type: string
+          nullable: true
+          description: Text for the first reminder notification
+        product_i18n_second_reminder_text:
+          type: string
+          nullable: true
+          description: Text for the second reminder notification
+        product_i18n_post_reminder_text:
+          type: string
+          nullable: true
+          description: Text for the post-event reminder notification
+        product_i18n_speaker_bio:
+          type: string
+          nullable: true
+          description: Biography of the speaker or instructor
+        product_i18n_registration_text:
+          type: string
+          nullable: true
+          description: Custom registration confirmation text
+        product_i18n_creator_name:
+          type: string
+          nullable: true
+          description: Display name of the content creator
+        product_i18n_creator_url:
+          type: string
+          nullable: true
+          description: URL to the creator's profile or website
+        product_i18n_promo_video_url:
+          type: string
+          nullable: true
+          description: URL of the promotional video
+        product_i18n_promo_video_url_vimeo_video_id:
+          type: string
+          nullable: true
+          description: Vimeo video ID for the promotional video
+        product_i18n_promo_video_url_vimeo_video_status:
+          type: string
+          nullable: true
+          description: Processing status of the Vimeo promotional video
+        product_i18n_external_link:
+          type: string
+          nullable: true
+          description: External URL associated with the product
+        product_i18n_do_external_link:
+          type: string
+          nullable: true
+          description: Action trigger for external link
+        product_i18n_video_transcription:
+          type: string
+          nullable: true
+          description: Transcription of the product video
+        product_i18n_content:
+          type: string
+          nullable: true
+          description: HTML body content of the product
+        product_i18n_image:
+          type: string
+          nullable: true
+          description: Relative path of the product cover image
+        product_i18n_price_label:
+          type: string
+          nullable: true
+          description: Formatted price label for display
+        product_created_date:
+          type: string
+          format: date-time
+          description: Date and time the product was created
+          readOnly: true
+        product_updated_date:
+          type: string
+          format: date-time
+          description: Date and time the product was last updated
+          readOnly: true
+        product_created_by_user_id:
+          type: integer
+          description: ID of the user who created the product
+          readOnly: true
+        product_updated_by_user_id:
+          type: integer
+          description: ID of the user who last updated the product
+          readOnly: true
+        product_image_full_url:
+          type: string
+          nullable: true
+          description: Full URL to the product cover image
+          readOnly: true
+        product_product_access_expired_day:
+          type: integer
+          nullable: true
+          description: Number of days before product access expires after enrollment
+        product_event_access_need_approval:
+          type: integer
+          description: Whether event registration requires approval (1 = yes, 0 = no)
+        product_do_before_type:
+          type: string
+          nullable: true
+          description: Prerequisite type required before accessing the product
+          readOnly: true
+        product_provider_id:
+          type: integer
+          nullable: true
+          description: ID of the content provider
+          readOnly: true
+
+    Definition:
+      type: object
+      required:
+        - status
+        - result
+      properties:
+        status:
+          type: string
+        result:
+          type: object
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

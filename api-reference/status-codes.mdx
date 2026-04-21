@@ -1,0 +1,22 @@
+---
+title: 'Status Codes'
+description: 'All possible response status codes.'
+---
+
+## Different status codes
+
+If the status code is 200, the request is successful.
+
+If the status code is not 200 or 201, the request fails. The response body includes a message field explaining the reason of the failure.
+
+| Response status code | Status        | Description                                                                 |
+|-----------------------|---------------|------------------------------------------------------------------------------|
+| 200                   | OK            | The request is successful, and the server returns the requested data.                                                        |
+| 201                   | Created       | The request is successful, a resource was created and the server returns the requested data.                                      |
+| 400                   | Invalid request   | The user's request has an error. The server did not create or change any data.                                     |
+| 401                   | Unauthorized   | The token is invalid.                                    |
+| 403                   | Forbidden   | The user has permission (contrary to 401), but is denied access to perform the requested operation.                                      |
+| 404                   | Not found   | The server cannot find the requested resource.                                      |
+| 405                   | Method not allowed   | The request method used is not allowed for this endpoint.                                      |
+| 408                   | Request Timeout   | The request timed out.                                      |
+

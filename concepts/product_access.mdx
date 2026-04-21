@@ -1,0 +1,24 @@
+---
+title: 'Enrollment Access'
+description: "An Enrollment Access is the permission that allows a user to enroll in a course. It indicates that the user is authorized to begin the training but has not necessarily started it yet."
+icon: 'gamepad'
+---
+
+## Attribution
+
+Enrollment Access can be attributed to a user or a group. When attributed to a group, any user with a [membership](/concepts/user_grp) to this group will benefit from the access. One the user takes an action in regards to the group Enrollment Access, a separate Enrollment Access will be created and attributed to the user.
+
+## Access status
+
+An access has different status based on its lifecycle.
+
+| Status                     | Description                                                                                  |
+|--------------------------------------|----------------------------------------------------------------------------------------------|
+| Registration required                | The user may access the course, but must register before starting.                           |
+| Registration with manager approval   | The user must register, and the registration will need to be approved by their manager.      |
+| Registration with admin approval     | The user must register, and the registration will need to be approved by an administrator.   |
+| Awaiting approval                    | The user has registered and is waiting for an approval decision.                             |
+| Registration rejected                | The user’s registration request was reviewed and denied.                                     |
+| Registered                           | The user is registered and may now access or begin the course.                               |
+| No participation                     | The user had access to the course but did not start or engage with it.                       |
+| Refunded                             | The user purchased the course but has since been refunded and no longer has active access.   |

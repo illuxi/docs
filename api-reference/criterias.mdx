@@ -1,0 +1,45 @@
+---
+title: 'Criterias'
+description: 'Criterias can be used to filter requested data.'
+---
+
+## Structure of a criteria object
+
+<ParamField path="column" type="string" required>
+  Name of the column
+</ParamField>
+
+<ParamField path="operator" type="string" required>
+  Name of the operator. Available operators: equal, like, greater, lower.
+</ParamField>
+
+<ParamField path="value" type="string" required>
+  Value to match
+</ParamField>
+
+## Example
+
+```json
+{
+    "criterias": [
+        {
+            "column": "take_completed_date",
+            "operator": "greater",
+            "value": "2024-01-01"
+        },
+        {
+            "column": "status",
+            "operator": "equal",
+            "value": "done"
+        },
+        {
+            "column": "product_key",
+            "operator": "like",
+            "value": "leadership%"
+        }
+    ]
+}
+```
+
++ Navigation
+  | Columns: Specify which columns to retrieve. -> ../columns

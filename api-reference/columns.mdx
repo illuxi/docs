@@ -1,0 +1,89 @@
+---
+title: 'Columns'
+description: 'Specify which columns to return.'
+---
+
+In any ```get_all``` request, all available columns will be returned by default. However, you can request for specific columns only.
+
+To do so, simply add a ```columns``` item in the request's body:
+
+```json
+{
+    "start": 0,
+    "limit": 5  ,
+    "criterias": [
+        {
+            "column": "grp_name",
+            "operator": "like",
+            "value": "neuro"
+        }
+    ],
+    "columns": [
+        "grp_id",
+        "grp_name"
+    ]
+}
+```
+
+And the response would be:
+
+```json
+{
+    "status": true,
+    "start": 0,
+    "limit": 5,
+    "count": 5,
+    "result": [
+        {
+            "grp_id": 4382,
+            "grp_name": "neuro-cohort-2025"
+        },
+        {
+            "grp_id": 9127,
+            "grp_name": "neuro-gestion-equipes"
+        },
+        {
+            "grp_id": 2841,
+            "grp_name": "neuro-formation-hybride"
+        },
+        {
+            "grp_id": 7034,
+            "grp_name": "neuro-support-tech-qa"
+        },
+        {
+            "grp_id": 5179,
+            "grp_name": "neuro-leadership-internal"
+        }
+    ],
+    "total_count": 20,
+    "has_more": true
+}
+
+```
+
+
+
+
+# Example
+
+```json
+{
+    "criterias": [
+        {
+            "column": "take_completed_date",
+            "operator": "greater",
+            "value": "2024-01-01"
+        },
+        {
+            "column": "status",
+            "operator": "equal",
+            "value": "done"
+        },
+        {
+            "column": "product_key",
+            "operator": "like",
+            "value": "leadership%"
+        }
+    ]
+}
+```

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../OpenAPI-Specification"
+		},
+		{
+			"path": "../illuxi-v3-api-docs"
+		}
+	],
+	"settings": {}
+}

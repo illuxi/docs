@@ -1,0 +1,3 @@
+apis:
+  api-reference/openapi.yaml:
+    alias: illuxilms-api
