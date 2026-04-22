@@ -2043,6 +2043,107 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /webhook/subscribe:
+    post:
+      tags:
+        - Webhooks
+      description: Subscribe to a webhook to receive a POST request at your URL whenever a specific trigger occurs.
+      operationId: subscribeWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - hook_url
+                - trigger
+                - name
+              properties:
+                hook_url:
+                  type: string
+                  format: uri
+                  description: The URL to be called when the trigger occurs
+                trigger:
+                  type: string
+                  description: The event that triggers the webhook
+                  enum:
+                    - user.created
+                    - user.updated
+                    - product_access.created
+                    - product_access.updated
+                    - product_access.approved
+                    - product_access.rejected
+                    - take.completed
+                name:
+                  type: string
+                  description: Name of the webhook
+                description:
+                  type: string
+                  description: Optional description of the webhook
+            example:
+              hook_url: https://myapp.com/webhook
+              trigger: user.created
+              name: My webhook
+      responses:
+        '201':
+          description: Webhook subscription created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  webhook_id:
+                    type: integer
+                    description: ID of the created webhook — store this for future unsubscribe operations
+              example:
+                status: true
+                message: Subscription created
+                webhook_id: 10
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /webhook/unsubscribe/{webhook_id}:
+    delete:
+      tags:
+        - Webhooks
+      description: Unsubscribe from a webhook by its ID.
+      operationId: unsubscribeWebhook
+      parameters:
+        - name: webhook_id
+          in: path
+          description: ID of the webhook to unsubscribe from
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Webhook unsubscribed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                status: true
+                message: Unsubscribed
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Product:

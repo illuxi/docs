@@ -55,7 +55,8 @@
               "api-reference/status-codes",
               "api-reference/criterias",
               "api-reference/columns",
-              "api-reference/limits"
+              "api-reference/limits",
+              "api-reference/webhooks"
             ]
           },
           {
