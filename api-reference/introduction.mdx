@@ -1,56 +1,22 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "Introduction"
+description: "How to quickly get start up."
 ---
-
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
 
 ## Authentication
 
-Every request needs a valid token to be present in the header in the form :
-
-```curl
-authorization: token
-```
+With every request, a token will need to be included in the header.
 
 To obtain a valid token, you will need the URL of your portal's API as well as your API key. You can find both information in your portal’s admin under Apps / illuxi API.
 
 ![API access info](/images/api-access-info.png)
 
-Use the ```/token``` endpoint to obtain a valid token.
+Use the [/token](api-reference/endpoint/token) endpoint to obtain a valid token.
 
-## Authorisation header
+## Autorisation header
 
 Each request needs to contain this specific header:
 
 ```curl
-Authorization: <VALID_TOKEN>
-```
-
-
-## Welcome
-
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
-
-## Authentication
-
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
-
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+Authorization: <TOKEN>
 ```
