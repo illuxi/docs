@@ -93,7 +93,7 @@ paths:
   /product/definition:
     get:
       description: |
-        Returns the definition of the product object, including its properties and their types. This endpoint is useful for understanding the structure of the product data and how to interact with it.
+        Returns the definition of the [product](/concepts/product) object, including its properties and their types. This endpoint is useful for understanding the structure of the product data and how to interact with it.
       operationId: getProductDefinition
       responses:
         '200':
@@ -315,7 +315,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /product/get/{id}:
     get:
-      description: Returns a product based on a single ID
+      description: Returns a [product](/concepts/product) based on a single ID
       operationId: getProductById
       parameters:
         - name: id
@@ -410,7 +410,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /product/get_all:
     post:
-      description: Returns a paginated list of products, with optional filtering via criterias.
+      description: Returns a paginated list of [products](/concepts/product), with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllProducts
       requestBody:
         required: true
@@ -492,7 +492,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /availability_group/definition:
     get:
-      description: Returns the definition of the availability_group object, including its properties and their types.
+      description: Returns the definition of an [availability_group](/concepts/availability_group) object, including its properties and their types.
       operationId: getAvailabilityGroupDefinition
       responses:
         '200':
@@ -509,7 +509,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /availability_group/get/{id}:
     get:
-      description: Returns an availability_group based on a single ID
+      description: Returns an [availability_group](/concepts/availability_group) based on a single ID
       operationId: getAvailabilityGroupById
       parameters:
         - name: id
@@ -538,7 +538,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /availability_group/get_all:
     post:
-      description: Returns a paginated list of availability_groups with optional filtering.
+      description: Returns a paginated list of [availability_groups](/concepts/availability_group) with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllAvailabilityGroups
       requestBody:
         required: true
@@ -577,7 +577,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /availability_group/edit/{id}:
     post:
-      description: Edit an availability_group by ID
+      description: Edit an [availability_group](/concepts/availability_group) by ID
       operationId: editAvailabilityGroup
       parameters:
         - name: id
@@ -614,7 +614,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /illuxi_availability/definition:
     get:
-      description: Returns the definition of the illuxi_availability object, including its properties and their types.
+      description: Returns the definition of an [illuxi_availability](/concepts/illuxi_availability) object, including its properties and their types.
       operationId: getIlluxiAvailabilityDefinition
       responses:
         '200':
@@ -631,7 +631,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /illuxi_availability/get/{id}:
     get:
-      description: Returns an illuxi_availability based on a single ID
+      description: Returns an [illuxi_availability](/concepts/illuxi_availability) based on a single ID
       operationId: getIlluxiAvailabilityById
       parameters:
         - name: id
@@ -660,7 +660,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /illuxi_availability/get_all:
     post:
-      description: Returns a paginated list of illuxi_availabilities with optional filtering.
+      description: Returns a paginated list of [illuxi_availabilities](/concepts/illuxi_availability) with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllIlluxiAvailabilities
       requestBody:
         required: true
@@ -702,7 +702,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /illuxi_availability/edit/{id}:
     post:
-      description: Edit an illuxi_availability by ID
+      description: Edit an [illuxi_availability](/concepts/illuxi_availability) by ID
       operationId: editIlluxiAvailability
       parameters:
         - name: id
@@ -739,7 +739,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /bundle/definition:
     get:
-      description: Returns the definition of the bundle object, including its properties and their types.
+      description: Returns the definition of the [bundle](/concepts/bundle) object, including its properties and their types.
       operationId: getBundleDefinition
       responses:
         '200':
@@ -756,7 +756,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /grp/definition:
     get:
-      description: Returns the definition of the grp object, including its properties and their types.
+      description: Returns the definition of the [grp](/concepts/grp) object, including its properties and their types.
       operationId: getGrpDefinition
       responses:
         '200':
@@ -773,7 +773,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /grp/create:
     post:
-      description: Create a new group
+      description: Create a new [grp](/concepts/grp)
       operationId: createGrp
       requestBody:
         required: true
@@ -807,7 +807,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /grp/delete/{id}:
     post:
-      description: Delete a group by ID
+      description: Delete a [grp](/concepts/grp) by ID
       operationId: deleteGrp
       parameters:
         - name: id
@@ -834,7 +834,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /grp/edit/{id}:
     post:
-      description: Edit a group by ID
+      description: Edit a [grp](/concepts/grp) by ID
       operationId: editGrp
       parameters:
         - name: id
@@ -871,7 +871,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /grp/get/{id}:
     get:
-      description: Returns a group based on a single ID
+      description: Returns a [grp](/concepts/grp) based on a single ID
       operationId: getGrpById
       parameters:
         - name: id
@@ -900,7 +900,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /grp/get_by_external_id/{external_id}:
     get:
-      description: Returns a group by its external ID
+      description: Returns a [grp](/concepts/grp) by its external ID
       operationId: getGrpByExternalId
       parameters:
         - name: external_id
@@ -929,7 +929,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /grp/get_with_children/{id}:
     get:
-      description: Returns a group and all its child groups
+      description: Returns a [grp](/concepts/grp) and all its child groups
       operationId: getGrpWithChildren
       parameters:
         - name: id
@@ -965,7 +965,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /grp/get_all:
     post:
-      description: Returns a paginated list of groups with optional filtering.
+      description: Returns a paginated list of [grps](/concepts/grp) with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllGrps
       requestBody:
         required: true
@@ -1001,7 +1001,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /grp/manage_users:
     post:
-      description: Add, move, or remove users from groups
+      description: Add, move, or remove users from [grps](/concepts/grp)
       operationId: manageUsersInGrps
       requestBody:
         required: true
@@ -1061,7 +1061,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /product_access/definition:
     get:
-      description: Returns the definition of the product_access object, including its properties and their types.
+      description: Returns the definition of the [product_access](/concepts/product_access) object, including its properties and their types.
       operationId: getProductAccessDefinition
       responses:
         '200':
@@ -1078,7 +1078,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /product_access/create:
     post:
-      description: Grant a user access to a product
+      description: Create a [product_access](/concepts/product_access) for a user
       operationId: createProductAccess
       requestBody:
         required: true
@@ -1136,7 +1136,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /product_access/get/{id}:
     get:
-      description: Returns a product_access record by ID
+      description: Returns a [product_access](/concepts/product_access) record by ID
       operationId: getProductAccessById
       parameters:
         - name: id
@@ -1165,7 +1165,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /product_access/get_all_for_product:
     post:
-      description: Returns a paginated list of product_access records linked to products.
+      description: Returns a paginated list of [product_access](/concepts/product_access) records linked to products with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllProductAccessForProduct
       requestBody:
         required: true
@@ -1204,7 +1204,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /product_access/get_all_for_bundle:
     post:
-      description: Returns a paginated list of product_access records linked to bundles.
+      description: Returns a paginated list of [product_access](/concepts/product_access) records linked to bundles with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllProductAccessForBundle
       requestBody:
         required: true
@@ -1240,7 +1240,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /product_access/edit/{id}:
     post:
-      description: Edit a product_access record by ID
+      description: Edit a [product_access](/concepts/product_access) by ID
       operationId: editProductAccess
       parameters:
         - name: id
@@ -1277,7 +1277,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /product_access/delete/{id}:
     post:
-      description: Delete a product_access record by ID
+      description: Delete a [product_access](/concepts/product_access) by ID
       operationId: deleteProductAccess
       parameters:
         - name: id
@@ -1304,7 +1304,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /take/definition:
     get:
-      description: Returns the definition of the take object, including its properties and their types.
+      description: Returns the definition of the [take](/concepts/take) object, including its properties and their types.
       operationId: getTakeDefinition
       responses:
         '200':
@@ -1321,7 +1321,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /take/get/{id}:
     get:
-      description: Returns a take record by ID
+      description: Returns a [take](/concepts/take) record by ID
       operationId: getTakeById
       parameters:
         - name: id
@@ -1350,7 +1350,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /take/get_all:
     post:
-      description: Returns a paginated list of take records with optional filtering.
+      description: Returns a paginated list of [take](/concepts/take) records with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllTakes
       requestBody:
         required: true
@@ -1386,7 +1386,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /take/get_all_for_user/{user_id}:
     post:
-      description: Returns a paginated list of take records for a specific user.
+      description: Returns a paginated list of [take](/concepts/take) records for a specific user with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllTakesForUser
       parameters:
         - name: user_id
@@ -1429,7 +1429,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /take/generate_certificate/{id}:
     get:
-      description: Generate a certificate for a completed take
+      description: Generate a certificate for a completed [take](/concepts/take)
       operationId: generateCertificate
       parameters:
         - name: id
@@ -1462,7 +1462,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/definition:
     get:
-      description: Returns the definition of the user object, including its properties and their types.
+      description: Returns the definition of the [user](/concepts/user) object, including its properties and their types.
       operationId: getUserDefinition
       responses:
         '200':
@@ -1479,7 +1479,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/get_all:
     post:
-      description: Returns a paginated list of users with optional filtering.
+      description: Returns a paginated list of [users](/concepts/user) with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllUsers
       requestBody:
         required: true
@@ -1526,7 +1526,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/get/{id}:
     get:
-      description: Returns a user by ID
+      description: Returns a [user](/concepts/user) by ID
       operationId: getUserById
       parameters:
         - name: id
@@ -1555,7 +1555,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/get_by_organisation_identifier/{identifier}:
     get:
-      description: Returns a user by their organisation identifier
+      description: Returns a [user](/concepts/user) by their organisation identifier
       operationId: getUserByOrganisationIdentifier
       parameters:
         - name: identifier
@@ -1584,7 +1584,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/create:
     post:
-      description: Create a new user
+      description: Create a new [user](/concepts/user)
       operationId: createUser
       requestBody:
         required: true
@@ -1651,7 +1651,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/edit/{id}:
     post:
-      description: Edit a user by ID
+      description: Edit a [user](/concepts/user) by ID
       operationId: editUser
       parameters:
         - name: id
@@ -1709,7 +1709,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/activate/{id}:
     post:
-      description: Activate a user account
+      description: Activate a [user](/concepts/user) account
       operationId: activateUser
       parameters:
         - name: id
@@ -1736,7 +1736,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/deactivate/{id}:
     post:
-      description: Deactivate a user account
+      description: Deactivate a [user](/concepts/user) account
       operationId: deactivateUser
       parameters:
         - name: id
@@ -1763,7 +1763,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/grp/{id}:
     post:
-      description: Returns a paginated list of groups for a specific user.
+      description: Returns a paginated list of [grps](/concepts/grp) for a specific [user](/concepts/user).
       operationId: getGrpsForUser
       parameters:
         - name: id
@@ -1812,7 +1812,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/get_recent/{limit}:
     get:
-      description: Returns the most recently created users
+      description: Returns the most recently created [users](/concepts/user)
       operationId: getRecentUsers
       parameters:
         - name: limit
@@ -1843,7 +1843,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user/get_recently_updated:
     get:
-      description: Returns users who were recently updated
+      description: Returns [users](/concepts/user) who were recently updated
       operationId: getRecentlyUpdatedUsers
       responses:
         '200':
@@ -1867,7 +1867,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user_grp/definition:
     get:
-      description: Returns the definition of the user_grp object, including its properties and their types.
+      description: Returns the definition of the [user_grp](/concepts/user_grp) object, including its properties and their types.
       operationId: getUserGrpDefinition
       responses:
         '200':
@@ -1884,7 +1884,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user_grp/create:
     post:
-      description: Add a user to a group
+      description: Create a [user_grp](/concepts/user_grp), hence adding a [user](/concepts/user) to a [group](/concepts/group)
       operationId: createUserGrp
       requestBody:
         required: true
@@ -1916,7 +1916,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user_grp/delete/{id}:
     post:
-      description: Remove a user from a group by user_grp ID
+      description: Remove a [user](/concepts/user) from a [group](/concepts/group) by [user_grp](/concepts/user_grp) ID
       operationId: deleteUserGrp
       parameters:
         - name: id
@@ -1943,7 +1943,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user_grp/edit/{id}:
     post:
-      description: Edit a user_grp record by ID
+      description: Edit a [user_grp](/concepts/user_grp) record by ID
       operationId: editUserGrp
       parameters:
         - name: id
@@ -1980,7 +1980,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user_grp/get/{id}:
     get:
-      description: Returns a user_grp record by ID
+      description: Returns a [user_grp](/concepts/user_grp) record by ID
       operationId: getUserGrpById
       parameters:
         - name: id
@@ -2009,7 +2009,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /user_grp/get_all:
     post:
-      description: Returns a paginated list of user_grp records with optional filtering.
+      description: Returns a paginated list of [user_grp](/concepts/user_grp) records with optional filtering via [criterias](/api-reference/criterias).
       operationId: getAllUserGrps
       requestBody:
         required: true
@@ -2047,7 +2047,7 @@ paths:
     post:
       tags:
         - Webhooks
-      description: Subscribe to a webhook to receive a POST request at your URL whenever a specific trigger occurs.
+      description: Subscribe to a [webhook](/api-reference/webhooks) to receive a POST request at your URL whenever a specific trigger occurs.
       operationId: subscribeWebhook
       requestBody:
         required: true
@@ -2114,7 +2114,7 @@ paths:
     delete:
       tags:
         - Webhooks
-      description: Unsubscribe from a webhook by its ID.
+      description: Unsubscribe from a [webhook](/api-reference/webhooks) by its ID.
       operationId: unsubscribeWebhook
       parameters:
         - name: webhook_id
