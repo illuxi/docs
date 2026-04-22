@@ -200,8 +200,5 @@
     }
   },
   "openapi": "api-reference/openapi.yaml",
-  "description": "All the documentation you need to interact with your illuxiLMS portal and integrate it with other systems.",
-  "banner": {
-    "content": "A new banner message !"
-  }
+  "description": "All the documentation you need to interact with your illuxiLMS portal and integrate it with other systems."
 }
