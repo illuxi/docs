@@ -1,13 +1,13 @@
 ---
 title: "Introduction"
-description: "How to quickly get start up."
+description: "How to get started quickly"
 ---
 
 ## Authentication
 
-With every request, a token will need to be included in the header.
+Each request must include a token in the header.
 
-To obtain a valid token, you will need the URL of your portal's API as well as your API key. You can find both information in your portal’s admin under Apps / illuxi API.
+To obtain a valid token, you will need your portal’s API URL and API key. Both can be found in your portal administration settings under Apps / illuxi API.
 
 ![API access info](/images/api-access-info.png)
 
@@ -15,7 +15,7 @@ Use the [/token](/api-reference/endpoint/token/index) endpoint to obtain a valid
 
 ## Autorisation header
 
-Each request needs to contain this specific header:
+Each request must include the following header:
 
 ```curl
 Authorization: <TOKEN>
